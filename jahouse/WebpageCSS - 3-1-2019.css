@@ -1,0 +1,179 @@
+/*My CSS is kinda trash right now*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #2E2E2E;
+  font-family: sans-serif;
+}
+
+header {
+  background:white;
+}
+
+header > h3 {
+  padding-top: 20px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 20% 35% 30% 120%;
+  grid-template-areas: 
+  ". sub-text sub-text sub-text sub-text ."
+  "rand rand dist dist buil buil"
+  "buttonSp buttonSp buttonSp buttonSp buttonSp buttonSp"
+  "graphSp graphSp graphSp tableSp tableSp tableSp";
+}
+
+.sub-text {
+  /* border: 4px solid #5d5d5d; */
+  grid-area: sub-text;
+  text-align: center;
+  font-size: 13px;
+}
+
+.rand {
+  /* border: 4px solid #5d5d5d; */
+  grid-area: rand;
+  text-align: center;
+}
+
+.rand #opt-title {
+  /* border: 4px solid #5d5d5d; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+.rand #prompt {
+  font-size: 16px;
+}
+
+.dist {
+  /* border: 4px solid #5d5d5d; */
+  grid-area: dist;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.dist #opt-title {
+  /* border: 4px solid #5d5d5d; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+.dist #choose {
+  /* border: 4px solid #5d5d5d; */
+  padding-left: 43%;
+  text-align: left;
+  font-size: 16px;
+}
+
+.buil {
+  /* border: 4px solid #5d5d5d; */
+  grid-area: buil;
+  text-align: center;
+}
+
+.buil #opt-title {
+  /* border: 4px solid #5d5d5d; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+#number {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  border: 4px solid #5d5d5d;
+  border-radius: 50%;
+  background: #5d5d5d;
+  color: white;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.buttonSp {
+  grid-area: buttonSp;
+  /* border: 4px solid purple; */
+}
+
+#buttonB {
+  text-align: center;
+  justify-self: center;
+  background: #5d5d5d;
+  padding: 9px 0px;
+  height: 50px;
+  width: 150px;
+  border: 4px solid #5d5d5d;
+  border-radius: 5%;
+  color: white;
+  font-size: 20px;
+  margin-left: 45%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.graphSp {
+  /* border: 4px solid pink; */
+  grid-area: graphSp;
+  background: #5d5d5d;
+  text-align: center;
+  color: white;
+}
+
+.tableSp {
+  border: 4px solid pink; 
+  grid-area: tableSp;
+  background: #5d5d5d;
+  text-align: center;
+  color: white;
+}
+
+.tab  {
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: inline-block;
+  border: 4px solid pink;
+  margin-top: 10px;
+}
+
+.tab td {
+  color: white;
+  font-size: 16px;
+  padding: 10px 5px;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  word-break: normal;
+  border-color:black;
+}
+
+.tab th {
+  color: white;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 10px 5px;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  word-break: normal;
+  border-color:black;
+}
+
+.tab .corner {
+  border-color: inherit;
+  text-align: left;
+}
+
+.tab .element {
+  border-color: inherit;
+  text-align: left;
+  vertical-align: top;
+}
