@@ -27,20 +27,23 @@
 
         #grid-container {
             display: grid;
-            grid-template-columns: 50% 20% 30%;
-            grid-template-rows: 20% 30% 50%;
+            grid-template-columns: 30% 30% 40%;
+            grid-template-rows: 25% 25% 25% 25%;
             grid-template-areas:
-                'rguess GamePlot    '
-                'DataTextBox GamePlot   '
-                'options guesses-table guesses-scatter';
+                'rguess . GamePlot'
+                'DataTextBox guesses-table guesses-scatter'
+                'options . guesses-scatter'
+                '. . guesses-scatter';
 
         }
 
         #guesses-table {
             grid-area: guesses-table;
             border: solid;
+            right: -100px;
             border-spacing: 2px;
             position: relative;
+            width: 25px;
         }
 
         table td {
@@ -55,14 +58,28 @@
             background-color: rgb(224, 230, 241);
         }
 
+        #rguess {
+            grid-area: rguess;
+            position: relative;
+        }
+
         #DataTextBox {
             grid-area: DataTextBox;
             border: darkblue solid;
+            position: relative;
+            bottom: 160px;
         }
 
         #guesses-scatter {
             grid-area: guesses-scatter;
             position: relative;
+            bottom: 50px;
+        }
+
+        #options {
+            grid-area: options;
+            position: relative;
+            bottom: 100px;
         }
 
         #GamePlot {
@@ -72,8 +89,48 @@
             width: 425px;
         }
 
-        #corr {
-            position: relative;
+        @media only screen and (max-width: 620px) {
+            #grid-container {
+                grid-template-columns: 100%;
+                grid-template-rows: 15% 15% 30% 10% 25% 25%;
+                grid-template-areas:
+                    'rguess'
+                    'DataTextBox'
+                    'GamePlot'
+                    'options'
+                    'guesses-table'
+                    'guesses-scatter';
+            }
+
+            #rguess {
+                left: 0px;
+                bottom: 0px;
+            }
+
+            #guesses-scatter {
+                left: 0px;
+            }
+
+            #options {
+                left: 0px;
+                bottom: 0px;
+            }
+
+            #GamePlot {
+                left: 0px;
+                bottom: 0px;
+            }
+
+            #guesses-table {
+                left: 0px;
+                bottom: 0px;
+            }
+
+            #DataTextBox {
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+            }
         }
     </style>
 </head>
@@ -88,7 +145,7 @@
                 <a href="./page1.html" class="active">Guessing Game</a>
             </div> <br>
             <br><br>Guess for Correlation r:
-            <input type="text" name="r" value="0.00"><br>
+            <input type="number" v-model="r"><br>
             <input type="submit" value="Enter Guess">
             <br><br>Upload/Edit Data: <br>
         </div>
@@ -99,15 +156,15 @@
     3.87 3.76 4.59 4.15 9.00 3.50 3.25
     3.86 5.70 6.03 4.70 6.09 3.60 4.75
     </textarea>
-        <br><br>
         <div id="options">
-            <button type="button">New Sample</button>
-            <button type="button">Reset</button>
+            <button @click="inputdata"">Update Data</button>
+            <button @click=" newrand">New Sample</button>
+            <button @click="reset">Reset</button>
             <br><br>
-            <input type="checkbox" name="regline" value="Regline"> Display regression line<br>
-            <input type="checkbox" name="table1" value="guesses table"> Display table of actual values and guesses<br>
-            <input type="checkbox" name="scatterplot" value="scatter"> Display scatterplot of correlation between
-            guesses and <br> correlation of the data
+            <input type="checkbox" v-model="regline"> Display regression line<br>
+            <input type="checkbox" v-model="guesses table"> Display table of actual values and guesses<br>
+            <input type="checkbox" v-model="scatter"> Display scatterplot of correlation between
+            guesses and <br> correlation of the data</input>
         </div>
         <table id="guesses-table">
             <th></th>
@@ -166,32 +223,56 @@
             Plotly.newPlot('GamePlot', data, layout);
         </script>
 
-        <div id="guesses-scatter"></div>
-        <script>
-            var guess = {
-                x: [0.65, -0.10, 0.00, 0.75, -1],
-                y: [0.70, -0.19, 0.25, 0.68, -0.92],
-                mode: 'markers',
-                type: 'scatter',
-            };
+        <div id="guesses-scatter">
+            <script>
+                var guess = {
+                    x: [0.65, -0.10, 0.00, 0.75, -1],
+                    y: [0.70, -0.19, 0.25, 0.68, -0.92],
+                    mode: 'markers',
+                    type: 'scatter',
+                };
 
-            var data1 = [guess];
+                var data1 = [guess];
 
-            var layout = {
-                xaxis: {
-                    range: [-1.15, 1.15]
-                },
-                yaxis: {
-                    range: [-1.15, 1.15]
-                },
-                title: 'Guesses versus Actual Correlation'
+                var layout = {
+                    xaxis: {
+                        range: [-1.15, 1.15]
+                    },
+                    yaxis: {
+                        range: [-1.15, 1.15]
+                    },
+                    title: 'Guesses versus Actual Correlation'
 
-            };
-            Plotly.newPlot('guesses-scatter', data1, layout);
-        </script>
+                };
+                Plotly.newPlot('guesses-scatter', data1, layout);
+            </script>
+            Correlation of Guesses=x.xx
+        </div>
 
-        <div id='corr'>Correlation=x.xx</div>
     </div>
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
+<script>
+    new Vue({
+        el: "#alert",
+        data: {
+            r: 0.00,
+            show
+        }
+    })
+    var reset = new Vue({
+        el: "#reset",
+        data: {
+            r: '',
+            tableinput: ''
+        },
+        methods: {
+            reset() {
+                this.r = null
+                this.tableinput = null
+            }
+        }
+    })
+</script>
