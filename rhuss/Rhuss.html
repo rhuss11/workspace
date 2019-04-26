@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<!--inside head this is creating title and making the website into columns and "shaping" the site.-->
 	<title>Normal Distribution</title>
 	<style>
 		.gridcontainer {
@@ -46,6 +47,7 @@
 </head>
 
 <body>
+	<!--taking user inputs -->
 	<div id="app" class="grid-container">
 
 
@@ -89,86 +91,87 @@
 
 		</div>
 	</div>
+	<!-- getting library of math and charts from sites below -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
-	<script>
-		new Vue({
-			el: "#app",
-			data: {
-				x: 1,
-				a: 0,
-				b: 0,
-				Mean: 0,
-				SD: 1,
-				mult: 4,
-			},
-			watch: {
-				SD(val) {
-					this.SD = Math.abs(val);
-					this.graph();
+	<script> < !--using vue to validate all inputed data and output the graph-- >
+			new Vue({
+				el: "#app",
+				data: {
+					x: 1,
+					a: 0,
+					b: 0,
+					Mean: 0,
+					SD: 1,
+					mult: 4,
 				},
-				b(val) {
-					if (val <= this.a)
-						this.b = this.a + .01;
-					else this.b = val;
-				},
-				Mean() { this.graph(); }
+				watch: {
+					SD(val) {
+						this.SD = Math.abs(val);
+						this.graph();
+					},
+					b(val) {
+						if (val <= this.a)
+							this.b = this.a + .01;
+						else this.b = val;
+					},
+					Mean() { this.graph(); }
 
-			},
-			methods: {
-				graph() {
-					const data = [];
-					const lines = [
-						{
-							type: "line",
-							mode: "vertical",
-							scaleID: "x-axis-1",
-							value: this.mean,
-							borderColor: "red",
-							label: {
-								content: "Population Mean",
-								enabled: true,
-								position: "top"
-							}
-						}
-					]
-					const low = this.Mean - this.mult * this.SD;
-					const hi = this.Mean + this.mult * this.SD;
-					for (let x = low; x <= hi; x += .5) {
-						data.push({
-							x: x,
-							y: jStat.normal.pdf(x, this.Mean, this.SD)
-						});
-					}
-					let ctx = this.$refs.plot;
-					new Chart(ctx, {
-						type: "line",
-						data: {
-							datasets: [
-								{
-									label: "Normal Distribution",
-									data: data
+				},
+				methods: {
+					graph() {
+						const data = [];
+						const lines = [
+							{
+								type: "line",
+								mode: "vertical",
+								scaleID: "x-axis-1",
+								value: this.mean,
+								borderColor: "red",
+								label: {
+									content: "Population Mean",
+									enabled: true,
+									position: "top"
 								}
-							]
-						},
-						options: {
-							scales: {
-								xAxes: [
+							}
+						]
+						const low = this.Mean - this.mult * this.SD;
+						const hi = this.Mean + this.mult * this.SD;
+						for (let x = low; x <= hi; x += .5) {
+							data.push({
+								x: x,
+								y: jStat.normal.pdf(x, this.Mean, this.SD)
+							});
+						}
+						let ctx = this.$refs.plot;
+						new Chart(ctx, {
+							type: "line",
+							data: {
+								datasets: [
 									{
-										type: "linear",
-										position: "bottom"
+										label: "Normal Distribution",
+										data: data
 									}
 								]
+							},
+							options: {
+								scales: {
+									xAxes: [
+										{
+											type: "linear",
+											position: "bottom"
+										}
+									]
+								}
 							}
-						}
-					});
+						});
+					}
+				},
+				mounted() {
+					this.graph();
 				}
-			},
-			mounted() {
-				this.graph();
-			}
-		});
+			});
 	</script>
 
 </body>
